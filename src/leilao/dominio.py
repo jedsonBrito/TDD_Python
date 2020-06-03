@@ -1,30 +1,36 @@
 import sys
 
+
 class Usuario:
 
-    def __init__(self,nome):
+    def __init__(self, nome):
         self.__nome = nome
 
     @property
     def nome(self):
         return self.__nome
 
+
 class Lance:
 
-    def __init__(self,usuario,valor):
+    def __init__(self, usuario, valor):
         self.usuario = usuario
-        self.valor   = valor
+        self.valor = valor
 
 
 class Leilao:
 
-    def __init__(self,descricao):
+    def __init__(self, descricao: str):
         self.__descricao = descricao
         self.__lances = []
 
+    def efetuaLance(self, lance: Lance):
+        self.__lances.append(lance)
+
     @property
     def lances(self):
-        return self.__lances
+        return self.__lances[:]
+
 
 class Avaliador:
 
