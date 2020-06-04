@@ -23,16 +23,12 @@ class TestLeilao(TestCase):
         self.assertEqual(menor_valor_esperado, self.leilao_corruscant.menor_lance)
         self.assertEqual(maior_valor_esperado, self.leilao_corruscant.maior_lance)
 
-    def test_deve_retorna_o_maior_ou_menor_valor_de_um_lance_quando_adcionador_em_ordem_decrescente(self):
+    def test_nao_permite_lance_com_valor_menor_do_que_o_lance_anterior(self):
 
-        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
-        self.leilao_corruscant.efetuaLance(self.lance_do_sith)
+        with self.assertRaises(ValueError):
+            self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
+            self.leilao_corruscant.efetuaLance(self.lance_do_sith)
 
-        menor_valor_esperado = 100
-        maior_valor_esperado = 150
-
-        self.assertEqual(menor_valor_esperado, self.leilao_corruscant.menor_lance)
-        self.assertEqual(maior_valor_esperado, self.leilao_corruscant.maior_lance)
 
     def teste_deve_retornar_valor_menor_e_maior_para_leilao_com_apenas_um_lance(self):
 
@@ -44,8 +40,8 @@ class TestLeilao(TestCase):
 
         lance_do_mando = Lance(mando, 200)
 
-        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
         self.leilao_corruscant.efetuaLance(self.lance_do_sith)
+        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
         self.leilao_corruscant.efetuaLance(lance_do_mando)
 
         menor_valor_esperado = 100
@@ -62,8 +58,8 @@ class TestLeilao(TestCase):
         self.assertEqual(quantidade_de_lances, 1)
 
     def teste_deve_permitir_lance_se_o_usuario_for_diferente(self):
-        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
         self.leilao_corruscant.efetuaLance(self.lance_do_sith)
+        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
 
         quantidade_de_lances = len(self.leilao_corruscant.lances)
 

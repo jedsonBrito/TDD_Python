@@ -27,14 +27,14 @@ class Leilao:
         self.menor_lance = sys.float_info.max
 
     def efetuaLance(self, lance: Lance):
-        if(not self.__lances or self.__lances[-1].usuario.nome != lance.usuario):
+        if(not self.__lances or self.__lances[-1].usuario.nome != lance.usuario and lance.valor > self.__lances[-1].valor):
             if(lance.valor > self.maior_lance):
                 self.maior_lance = lance.valor
             if(lance.valor < self.menor_lance):
                 self.menor_lance = lance.valor
             self.__lances.append(lance)
         else:
-            raise ValueError("O usuário não pode ter dois lances")
+            raise ValueError("Lance falhou")
 
     @property
     def lances(self):
