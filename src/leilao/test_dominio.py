@@ -3,7 +3,7 @@ from unittest import TestCase
 from src.leilao.dominio import Leilao, Lance, Usuario
 
 
-class TestAvaliador(TestCase):
+class TestLeilao(TestCase):
 
     def setUp(self) -> None:
         self.jedi = Usuario("Jedi")
@@ -70,10 +70,10 @@ class TestAvaliador(TestCase):
         self.assertEqual(quantidade_de_lances, 2)
 
     def teste_nao_deve_permitir_lances_se_o_usuario_for_o_mesmo(self):
-        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
-        lance_jedi2 = Lance("Jedi", 300)
-        self.leilao_corruscant.efetuaLance(lance_jedi2)
 
-        quantidade_de_lances = len(self.leilao_corruscant.lances)
+        with self.assertRaises(ValueError):
+            self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
+            lance_jedi2 = Lance("Jedi", 300)
+            self.leilao_corruscant.efetuaLance(lance_jedi2)
 
-        self.assertEqual(quantidade_de_lances, 1)
+
