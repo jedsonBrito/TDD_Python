@@ -53,3 +53,27 @@ class TestAvaliador(TestCase):
 
         self.assertEqual(menor_valor_esperado, self.leilao_corruscant.menor_lance)
         self.assertEqual(maior_valor_esperado, self.leilao_corruscant.maior_lance)
+
+    def teste_deve_permitir_lance_quando_leilao_nao_tiver_lance(self):
+        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
+
+        quantidade_de_lances = len(self.leilao_corruscant.lances)
+
+        self.assertEqual(quantidade_de_lances, 1)
+
+    def teste_deve_permitir_lance_se_o_usuario_for_diferente(self):
+        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
+        self.leilao_corruscant.efetuaLance(self.lance_do_sith)
+
+        quantidade_de_lances = len(self.leilao_corruscant.lances)
+
+        self.assertEqual(quantidade_de_lances, 2)
+
+    def teste_nao_deve_permitir_lances_se_o_usuario_for_o_mesmo(self):
+        self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
+        lance_jedi2 = Lance("Jedi", 300)
+        self.leilao_corruscant.efetuaLance(lance_jedi2)
+
+        quantidade_de_lances = len(self.leilao_corruscant.lances)
+
+        self.assertEqual(quantidade_de_lances, 1)
