@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from src.leilao.dominio import Leilao, Lance, Usuario
+from src.leilao.exception import LanceInvalido
 
 
 class TestLeilao(TestCase):
@@ -25,7 +26,7 @@ class TestLeilao(TestCase):
 
     def test_nao_permite_lance_com_valor_menor_do_que_o_lance_anterior(self):
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(LanceInvalido):
             self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
             self.leilao_corruscant.efetuaLance(self.lance_do_sith)
 
@@ -67,7 +68,7 @@ class TestLeilao(TestCase):
 
     def teste_nao_deve_permitir_lances_se_o_usuario_for_o_mesmo(self):
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(LanceInvalido):
             self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
             lance_jedi2 = Lance("Jedi", 300)
             self.leilao_corruscant.efetuaLance(lance_jedi2)

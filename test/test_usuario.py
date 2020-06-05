@@ -2,6 +2,9 @@ from src.leilao.dominio import Usuario, Leilao
 
 import pytest
 
+from src.leilao.exception import LanceInvalido
+
+
 @pytest.fixture()
 def mando():
     return Usuario("Mandaloriano",100)
@@ -25,7 +28,7 @@ def teste_para_permitir_lance_igual_ao_valor_na_carteira(mando, leilao):
 
 def teste_nao_para_permitir_lance_maior_que_o_valor_na_carteira(mando, leilao):
 
-    with pytest.raises(ValueError):
+    with pytest.raises(LanceInvalido):
 
         corruscont = Leilao("Cidades")
 
