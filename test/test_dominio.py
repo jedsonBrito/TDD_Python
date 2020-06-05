@@ -6,8 +6,8 @@ from src.leilao.dominio import Leilao, Lance, Usuario
 class TestLeilao(TestCase):
 
     def setUp(self) -> None:
-        self.jedi = Usuario("Jedi")
-        self.sith = Usuario("Sith")
+        self.jedi = Usuario("Jedi",500)
+        self.sith = Usuario("Sith",500)
         self.lance_do_sith = Lance(self.sith, 100)
         self.lance_do_jedi = Lance(self.jedi, 150)
         self.leilao_corruscant = Leilao("Celular")
@@ -36,7 +36,7 @@ class TestLeilao(TestCase):
         self.assertEqual(150.0, self.leilao_corruscant.menor_lance)
 
     def teste_deve_retornar_valor_menor_e_maior_para_leilao_com_tres_lances(self):
-        mando = Usuario("Mandaloriano")
+        mando = Usuario("Mandaloriano",500)
 
         lance_do_mando = Lance(mando, 200)
 
@@ -71,5 +71,3 @@ class TestLeilao(TestCase):
             self.leilao_corruscant.efetuaLance(self.lance_do_jedi)
             lance_jedi2 = Lance("Jedi", 300)
             self.leilao_corruscant.efetuaLance(lance_jedi2)
-
-

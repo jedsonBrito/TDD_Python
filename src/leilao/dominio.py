@@ -1,14 +1,28 @@
-import sys
 
 
 class Usuario:
 
-    def __init__(self, nome):
+    def __init__(self, nome,carteira):
         self.__nome = nome
+        self.__carteira = carteira
 
     @property
     def nome(self):
         return self.__nome
+
+    @property
+    def carteira(self):
+        return self.__carteira
+
+    def propoeLance(self, leilao, valor):
+        if(self._valor_e_valido(valor)):
+            raise ValueError("Valor maior que o valor da carteira")
+        lance = Lance(self,valor)
+        leilao.efetuaLance(lance)
+        self.__carteira -= valor
+
+    def _valor_e_valido(self, valor):
+        return valor > self.__carteira
 
 
 class Lance:
@@ -23,15 +37,17 @@ class Leilao:
     def __init__(self, descricao: str):
         self.__descricao = descricao
         self.__lances = []
-        self.maior_lance = sys.float_info.min
-        self.menor_lance = sys.float_info.max
+        self.maior_lance = 0.0
+        self.menor_lance = 0.0
 
     def efetuaLance(self, lance: Lance):
-        if(not self.__lances or self.__lances[-1].usuario.nome != lance.usuario and lance.valor > self.__lances[-1].valor):
-            if(lance.valor > self.maior_lance):
-                self.maior_lance = lance.valor
-            if(lance.valor < self.menor_lance):
+        if( self._lance_e_valido(lance)):
+
+            if(not self._tem_lances()):
                 self.menor_lance = lance.valor
+
+            self.maior_lance = lance.valor
+
             self.__lances.append(lance)
         else:
             raise ValueError("Lance falhou")
@@ -39,3 +55,16 @@ class Leilao:
     @property
     def lances(self):
         return self.__lances[:]
+
+    def _tem_lances(self):
+        return self.__lances
+
+    def _usuario_diferentes(self, lance):
+        return self.__lances[-1].usuario.nome != lance.usuario
+
+    def _valor_maior_que_lance_anterior(self, lance):
+        return lance.valor > self.__lances[-1].valor
+
+    def _lance_e_valido(self, lance):
+        return not self._tem_lances() or \
+               (self._usuario_diferentes(lance) and self._valor_maior_que_lance_anterior(lance))
